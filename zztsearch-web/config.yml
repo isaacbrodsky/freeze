@@ -1,0 +1,8 @@
+
+worldDirectory: /home/rocky/ZZTZips
+indexDirectory: /tmp/zztsearchindex
+
+logging:
+  level: INFO
+  loggers:
+    com.isaacbrodsky.zztsearch.web: DEBUG
