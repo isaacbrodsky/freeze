@@ -1,8 +1,10 @@
 package com.isaacbrodsky.zztsearch.etl.textextraction;
 
-import com.isaacbrodsky.freeze.elements.Element;
-import com.isaacbrodsky.freeze.elements.Text;
-import com.isaacbrodsky.freeze.game.Board;
+import com.isaacbrodsky.freeze2.elements.Element;
+import com.isaacbrodsky.freeze2.elements.Text;
+import com.isaacbrodsky.freeze2.game.Board;
+import com.isaacbrodsky.freeze2.game.GameController;
+import com.isaacbrodsky.freeze2.game.Tile;
 import com.isaacbrodsky.zztsearch.etl.text.BoardGameText;
 import com.isaacbrodsky.zztsearch.etl.text.ElementGameText;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TextElementExtractor {
     private final BoardGameText boardGameText;
+    private final GameController game;
     private final Board board;
 
     public Collection<ElementGameText> allText() {
@@ -28,9 +31,8 @@ public class TextElementExtractor {
             for (int x = 0; x < board.getWidth(); x++) {
                 Point start = new Point(x, y);
 
-                // Don't need to worry about depth - probably
-                Element e = board.elementAt(x, y);
-                if (e instanceof Text && !seen.contains(start)) {
+                Tile t = board.tileAt(x + 1, y + 1);
+                if (isText(t) && !seen.contains(start)) {
                     Set<Point> block = new HashSet<>();
                     dfs(block, x, y);
                     blocks.add(block);
@@ -57,8 +59,8 @@ public class TextElementExtractor {
                                     sb.append(" ");
                                 }
                                 last = p;
-                                Element e = board.elementAt(p.x, p.y);
-                                sb.append(Character.toChars(e.getDisplayCharacter()));
+                                Tile t = board.tileAt(p.x + 1, p.y + 1);
+                                sb.append(Character.toChars(t.getColor()));
                             }
                             return sb.toString();
                         })
@@ -76,7 +78,7 @@ public class TextElementExtractor {
                 || y < 0
                 || y >= board.getHeight()
                 || block.contains(p)
-                || !(board.elementAt(x, y) instanceof Text)) {
+                || !isText(board.tileAt(x + 1, y + 1))) {
             return;
         }
 
@@ -97,6 +99,10 @@ public class TextElementExtractor {
             }
         }
         return true;
+    }
+
+    private boolean isText(Tile t) {
+        return t.getType() >= game.getElements().getTextMin();
     }
 
     @Value

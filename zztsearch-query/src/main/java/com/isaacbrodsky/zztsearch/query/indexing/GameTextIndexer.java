@@ -66,7 +66,7 @@ public class GameTextIndexer {
                         .forEach(t -> {
                             try (Timer.Context ignored2 = indexTime.time()) {
                                 t.getWriter().addDocument(t.getDoc());
-                                // TODO maay be better to combine a single per-board document?
+                                // TODO may be better to combine a single per-board document?
                                 combinedWriter.addDocument(t.getDoc());
                             } catch (IOException ioe) {
                                 log.error("Failed to index", ioe);

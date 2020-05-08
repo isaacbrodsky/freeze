@@ -67,7 +67,7 @@ class Formatter implements GameTextVisitor {
         if (object.getName() != null)
             doc.add(new TextField("object_name", object.getName(), Store.YES));
         doc.add(new TextField("object_text", NEWLINE_JOINER.join(object.getTexts()), Store.YES));
-        doc.add(new StringField("object_scroll", Boolean.toString(object.isScroll()), Store.YES));
+        doc.add(new StringField("object_type", object.getType(), Store.YES));
         doc.add(new TextField("object_comments", NEWLINE_JOINER.join(object.getComments()), Store.YES));
         doc.add(new TextField("object_labels", NEWLINE_JOINER.join(object.getLabels()), Store.YES));
         object.getBoard().accept(this);

@@ -1,6 +1,6 @@
 
-worldDirectory: /home/rocky/ZZTZips
-indexDirectory: /tmp/zztsearchindex
+worldDirectory: E:/ZZTZips
+indexDirectory: E:/tmp/zztsearchindex
 
 logging:
   level: INFO

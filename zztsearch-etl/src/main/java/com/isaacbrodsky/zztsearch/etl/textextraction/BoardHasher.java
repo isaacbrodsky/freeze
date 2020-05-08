@@ -1,9 +1,10 @@
 package com.isaacbrodsky.zztsearch.etl.textextraction;
 
-import com.isaacbrodsky.freeze.elements.Element;
-import com.isaacbrodsky.freeze.game.Board;
+import com.isaacbrodsky.freeze2.game.Board;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;
+
+import java.util.stream.Collectors;
 
 /**
  * Take a board and produce a hash of the elements on it.
@@ -18,26 +19,12 @@ public class BoardHasher {
     }
 
     public String compute() {
-        final Element[][][] elements = board.getElements();
-        final StringBuilder sb = new StringBuilder();
-        for (int y = 0; y < board.getHeight(); y++) {
-            for (int x = 0; x < board.getWidth(); x++) {
-                for (int d = 0; d < board.getDepth(); d++) {
-                    final Element e = elements[x][y][d];
-                    sb.append(',');
-                    if (e == null) {
-                        sb.append("null");
-                    } else {
-                        // Using only the visual appearance, but also
-                        // using depth...
-                        sb.append(e.getDisplayCharacter())
-                                .append(';')
-                                .append(e.getColoring().getCode());
-                    }
-                }
-            }
-        }
-
-        return SHA256.digestAsHex(sb.toString());
+        String tiles = board.tileStream()
+                .map(t -> t.getType() + "," + t.getColor())
+                .collect(Collectors.joining(","));
+        String stats = board.getStats().stream()
+                .map(s -> s.toString())
+                .collect(Collectors.joining(","));
+        return SHA256.digestAsHex(tiles + stats);
     }
 }
