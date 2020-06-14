@@ -25,6 +25,7 @@ public class IndexCommand extends ConfiguredCommand<ZZTSearchConfiguration> {
         try (final WorldStreamer worlds = new WorldStreamer(metrics, configuration.getWorldDirectory())) {
             final GameTextIndexer indexer = new GameTextIndexer(metrics, configuration.getIndexDirectory());
             final Stream<GameText> extracted = worlds.allWorlds()
+                    .peek(w -> log.debug("Indexing world {}", w.getPath()))
                     .flatMap(w -> new WorldTextExtractor(w.getPath(), w.getFileName(), w.getGame()).allText().stream());
             indexer.build(extracted);
         } catch (Exception ex) {

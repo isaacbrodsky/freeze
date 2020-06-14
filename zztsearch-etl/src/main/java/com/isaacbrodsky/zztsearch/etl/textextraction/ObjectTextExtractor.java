@@ -1,7 +1,7 @@
 package com.isaacbrodsky.zztsearch.etl.textextraction;
 
-import com.isaacbrodsky.freeze.elements.Scroll;
-import com.isaacbrodsky.freeze.elements.ZObject;
+import com.isaacbrodsky.freeze2.game.Stat;
+import com.isaacbrodsky.freeze2.utils.StringUtils;
 import com.isaacbrodsky.zztsearch.etl.text.BoardGameText;
 import com.isaacbrodsky.zztsearch.etl.text.ObjectGameText;
 import lombok.AllArgsConstructor;
@@ -13,13 +13,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ObjectTextExtractor {
     private final BoardGameText board;
-    private final ZObject object;
+    private final String tile;
+    private final Stat stat;
 
     public ObjectGameText text() {
-        if (object.getStats() == null)
+        if (StringUtils.isNullOrEmpty(stat.oop)) {
             return null;
+        }
 
-        String[] oop = object.getStats().getOop().split("\r");
+        String[] oop = stat.oop.split("\r");
 
         String name = null;
         List<String> comments = new ArrayList<>();
@@ -57,7 +59,7 @@ public class ObjectTextExtractor {
                 texts.stream()
                         .filter(l -> l.trim().length() > 0)
                         .collect(Collectors.toList()),
-                object instanceof Scroll,
+                tile == null ? "OFFSCREEN" : tile,
                 comments,
                 labels);
     }

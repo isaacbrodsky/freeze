@@ -25,7 +25,7 @@ public class BoardGameText implements GameText {
     private int index;
 
     /**
-     * Hash of the visual contents of the board
+     * Hash of the contents of the board
      */
     private String visualHash;
 

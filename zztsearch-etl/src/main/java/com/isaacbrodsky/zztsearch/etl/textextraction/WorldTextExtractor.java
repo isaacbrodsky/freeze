@@ -1,11 +1,11 @@
 package com.isaacbrodsky.zztsearch.etl.textextraction;
 
 import com.google.common.collect.ImmutableList;
-import com.isaacbrodsky.freeze.EmuMode;
-import com.isaacbrodsky.freeze.game.Board;
-import com.isaacbrodsky.freeze.game.GameController;
-import com.isaacbrodsky.freeze.game.SuperZGameController;
-import com.isaacbrodsky.freeze.game.ZGameController;
+import com.isaacbrodsky.freeze2.EmuMode;
+import com.isaacbrodsky.freeze2.game.Board;
+import com.isaacbrodsky.freeze2.game.GameController;
+import com.isaacbrodsky.freeze2.game.SuperZGameController;
+import com.isaacbrodsky.freeze2.game.ZGameController;
 import com.isaacbrodsky.zztsearch.etl.text.GameText;
 import com.isaacbrodsky.zztsearch.etl.text.WorldGameText;
 import lombok.AllArgsConstructor;
@@ -37,7 +37,7 @@ public class WorldTextExtractor {
                 .addAll(
                 IntStream.range(0, boards.size())
                         .filter(index -> boards.get(index) != null)
-                        .mapToObj(index -> new BoardTextExtractor(world, boards.get(index), index))
+                        .mapToObj(index -> new BoardTextExtractor(world, controller, boards.get(index), index))
                         .map(BoardTextExtractor::allText)
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList()))
@@ -57,7 +57,7 @@ public class WorldTextExtractor {
             return EmuMode.SUPERZZT;
         }
         // Invalid
-        return EmuMode.DEFAULT;
+        return EmuMode.ZZT;
     }
 
     private boolean isSave() {

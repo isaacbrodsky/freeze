@@ -1,6 +1,6 @@
 package com.isaacbrodsky.zztsearch.etl.text;
 
-import com.isaacbrodsky.freeze.EmuMode;
+import com.isaacbrodsky.freeze2.EmuMode;
 import lombok.Value;
 
 import java.util.List;

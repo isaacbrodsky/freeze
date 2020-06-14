@@ -22,11 +22,9 @@ public class ObjectGameText implements GameText {
     private List<String> texts;
 
     /**
-     * Whether the object is actually a scroll
-     *
-     * TODO: Make this field hold the type of the object?
+     * The object's type (SCROLL, OBJECT)
      */
-    private boolean isScroll;
+    private String type;
 
     /**
      * Any comments (zap'd labels) in this objects script

@@ -1,7 +1,7 @@
 package com.isaacbrodsky.zztsearch.etl.textextraction;
 
-import com.isaacbrodsky.freeze.elements.ZObject;
-import com.isaacbrodsky.freeze.game.Board;
+import com.isaacbrodsky.freeze2.game.Board;
+import com.isaacbrodsky.freeze2.game.GameController;
 import com.isaacbrodsky.zztsearch.etl.text.BoardGameText;
 import com.isaacbrodsky.zztsearch.etl.text.GameText;
 import com.isaacbrodsky.zztsearch.etl.text.WorldGameText;
@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BoardTextExtractor {
     private final WorldGameText world;
+    private final GameController game;
     private final Board board;
     private final int index;
 
@@ -30,17 +31,21 @@ public class BoardTextExtractor {
                 hasher.compute());
         text.add(boardGameText);
 
-        board.getElementList().stream()
-                // Scrolls extend ZObject, so that's ok
-                .filter(e -> e instanceof ZObject)
-                .map(e -> (ZObject) e)
-                .map(e -> new ObjectTextExtractor(boardGameText, e))
+        board.getStats().stream()
+                .map(s -> new ObjectTextExtractor(boardGameText, resolveTileName(s.x, s.y), s))
                 .map(ObjectTextExtractor::text)
                 .filter(t -> t != null)
                 .forEach(text::add);
 
-        text.addAll(new TextElementExtractor(boardGameText, board).allText());
+        text.addAll(new TextElementExtractor(boardGameText, game, board).allText());
 
         return Collections.unmodifiableList(text);
+    }
+
+    private String resolveTileName(int x, int y) {
+        if (!board.inBounds(x, y)) {
+            return null;
+        }
+        return game.resolveElement(board.tileAt(x, y).getType()).toString();
     }
 }

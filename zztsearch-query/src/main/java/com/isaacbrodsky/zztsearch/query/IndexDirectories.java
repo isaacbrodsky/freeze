@@ -1,8 +1,6 @@
 package com.isaacbrodsky.zztsearch.query;
 
-import lombok.Getter;
 import lombok.Value;
-import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 
