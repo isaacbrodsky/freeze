@@ -128,8 +128,8 @@ public class AddElementUtils {
     /**
      *
      */
-    public static UIInteraction selectCategory(EditorController editor, MenuCallback callback) {
-        return new CharInput(editor.getEmuMode() + " Categories\n"
+    public static UIInteraction selectCategory(EditorController editor, MenuCallback callback, boolean useDefaultColor) {
+        return new CharInput(editor.getEmuMode() + " Categories (" + (useDefaultColor ? "Default" : "Custom") + " Color)\n"
                 + makeCategoryList(editor)
                 + "Strike selection", callback, true, Integer
                 .valueOf(editor.getColorIdx()), 0);
@@ -137,7 +137,7 @@ public class AddElementUtils {
 
     public static UIInteraction addElementByCategory(EditorController editor, char categoryChar, boolean useDefaultColor) {
         EditorCategory category = EditorCategory.forKey(categoryChar);
-        return new CharInput(editor.getEmuMode() + " " + category + "\n"
+        return new CharInput(editor.getEmuMode() + " " + category + " (" + (useDefaultColor ? "Default" : "Custom'") + " Color)\n"
                 + makeCategorySelect(editor, category)
                 + "Strike selection", makeAddElementByCategoryCallback(editor, category, useDefaultColor), true, Integer
                 .valueOf(editor.getColorIdx()), 0);

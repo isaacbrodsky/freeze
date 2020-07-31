@@ -54,7 +54,7 @@ public class ZGame extends JPanel {
 	private static final ElementColoring DEBUG_ALERT_COLOR = ElementColoring.forNames(
 			NamedColor.DARKRED, NamedColor.GRAY);
 
-	public static final String APP_SHORT = "Freeze v. 2.0.0alpha";
+	public static final String APP_SHORT = "Freeze v. 2.0.0";
 	public static final String APP = APP_SHORT
 			+ ", Copyright 2011, 2020 Isaac Brodsky";
 
@@ -624,7 +624,7 @@ public class ZGame extends JPanel {
 						overInput = AddElementUtils.addElementByCategory(editor, cmd.charAt(0), !shiftDown);
 					}
 				}
-			});
+			}, !shiftDown);
 		}
 		if (keyboard.keysDown.remove(KeyEvent.VK_F2)) {
 			// TODO: This is set as overInput in order to draw over the sidebar
