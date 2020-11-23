@@ -51,12 +51,12 @@ public class SearchCommand extends ConfiguredCommand<ZZTSearchConfiguration> {
         final int num = namespace.getInt("num");
         final ObjectMapper objectMapper = bootstrap.getObjectMapper();
 
-        try (final Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)))) {
+        try (final Scanner scanner = new Scanner(new InputStreamReader(System.in))) {
             final GameTextSearcher searcher = new GameTextSearcher(bootstrap.getMetricRegistry(), configuration.indexDirectory);
 
             String line;
             while ((line = scanner.nextLine()) != null) {
-                objectMapper.writeValue(System.out, searcher.search(index, field, line, num));
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(System.out, searcher.search(index, field, line, num));
             }
         } catch (Exception ex) {
             log.error("Failed to search", ex);

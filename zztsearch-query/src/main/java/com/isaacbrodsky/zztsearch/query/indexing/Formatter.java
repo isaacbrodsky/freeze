@@ -45,7 +45,7 @@ class Formatter implements GameTextVisitor {
     @Override
     public void visit(WorldGameText world) {
         doc.add(new StringField("world_name", world.getName(), Store.YES));
-        doc.add(new StringField("world_patb", world.getPath(), Store.YES));
+        doc.add(new StringField("world_path", world.getPath(), Store.YES));
         doc.add(new StringField("world_worldname", world.getWorld(), Store.YES));
         doc.add(new StringField("world_mode", world.getMode().toString(), Store.YES));
         doc.add(new StringField("world_save", Boolean.toString(world.isSave()), Store.YES));

@@ -88,12 +88,10 @@ public class WorldStreamer implements Closeable {
                         }
 
                         if (fileName.toUpperCase().endsWith("ZIP")) {
-                            ZipFile zip = new ZipFile(file);
-
                             File tmp = Files.createTempDirectory("zztsearch-" + fileName).toFile();
                             toCleanUp.add(tmp);
 
-                            zip.extractAll(tmp.getAbsolutePath());
+                            extractZip(file, tmp);
 
                             log.debug("Recursing into {} (on disk {})", filePath, tmp.getAbsolutePath());
 
@@ -127,6 +125,11 @@ public class WorldStreamer implements Closeable {
                     log.debug("Skipping {}", filePath);
                     return Stream.empty();
                 });
+    }
+
+    private static void extractZip(File file, File tmp) throws IOException {
+        ZipFile zip = new ZipFile(file);
+        zip.extractAll(tmp.getAbsolutePath());
     }
 
     @Override
