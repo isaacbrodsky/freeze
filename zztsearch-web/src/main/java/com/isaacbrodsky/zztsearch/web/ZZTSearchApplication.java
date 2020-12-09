@@ -3,6 +3,7 @@ package com.isaacbrodsky.zztsearch.web;
 import com.isaacbrodsky.zztsearch.etl.WorldStreamer;
 import com.isaacbrodsky.zztsearch.query.search.GameTextSearcher;
 import com.isaacbrodsky.zztsearch.web.cli.IndexCommand;
+import com.isaacbrodsky.zztsearch.web.cli.MuseumCatalogCommand;
 import com.isaacbrodsky.zztsearch.web.cli.SearchCommand;
 import com.isaacbrodsky.zztsearch.web.cli.TopBoardsCommand;
 import com.isaacbrodsky.zztsearch.web.resources.SearchResource;
@@ -30,6 +31,7 @@ public class ZZTSearchApplication extends Application<ZZTSearchConfiguration> {
         bootstrap.addCommand(new IndexCommand());
         bootstrap.addCommand(new SearchCommand());
         bootstrap.addCommand(new TopBoardsCommand());
+        bootstrap.addCommand(new MuseumCatalogCommand());
     }
 
     @Override

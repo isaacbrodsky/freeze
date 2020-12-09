@@ -10,4 +10,9 @@ public class ZZTSearchConfiguration extends Configuration {
     public File worldDirectory;
     @Getter
     public File indexDirectory;
+
+    @Getter
+    public String museumUrlBase;
+    @Getter
+    public File museumDirectory;
 }
