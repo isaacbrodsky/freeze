@@ -51,7 +51,7 @@ public class TopBoardsCommand extends ConfiguredCommand<ZZTSearchConfiguration> 
         final ObjectMapper objectMapper = bootstrap.getObjectMapper();
 
         try {
-            final GameTextSearcher searcher = new GameTextSearcher(bootstrap.getMetricRegistry(), configuration.indexDirectory);
+            final GameTextSearcher searcher = new GameTextSearcher(bootstrap.getMetricRegistry(), objectMapper, configuration.indexDirectory, configuration.getMuseumFile());
 
             final Map<String, TopBoardResult> counts = new HashMap<>();
             final IndexSearcher boards = searcher.determineSearcher(Index.BOARD);

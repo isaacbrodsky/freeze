@@ -14,5 +14,5 @@ public class ZZTSearchConfiguration extends Configuration {
     @Getter
     public String museumUrlBase;
     @Getter
-    public File museumDirectory;
+    public File museumFile;
 }

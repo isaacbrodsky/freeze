@@ -22,7 +22,7 @@ public class MuseumCatalogCommand extends ConfiguredCommand<ZZTSearchConfigurati
 
     @Override
     protected void run(Bootstrap<ZZTSearchConfiguration> bootstrap, Namespace namespace, ZZTSearchConfiguration configuration) throws Exception {
-        final MuseumCatalogRetriever retriever = new MuseumCatalogRetriever(configuration.getMuseumUrlBase(), configuration.getMuseumDirectory());
+        final MuseumCatalogRetriever retriever = new MuseumCatalogRetriever(bootstrap.getObjectMapper(), configuration.getMuseumUrlBase(), configuration.getMuseumFile());
         retriever.retrieve();
     }
 }

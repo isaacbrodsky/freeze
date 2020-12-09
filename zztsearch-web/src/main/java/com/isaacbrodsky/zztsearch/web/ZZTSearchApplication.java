@@ -38,7 +38,10 @@ public class ZZTSearchApplication extends Application<ZZTSearchConfiguration> {
     public void run(final ZZTSearchConfiguration configuration,
                     final Environment environment) {
         try {
-            GameTextSearcher searcher = new GameTextSearcher(environment.metrics(), configuration.indexDirectory);
+            GameTextSearcher searcher = new GameTextSearcher(environment.metrics(),
+                    environment.getObjectMapper(),
+                    configuration.indexDirectory,
+                    configuration.getMuseumFile());
             SearchResource searchResource = new SearchResource(searcher);
             environment.jersey().register(searchResource);
         } catch (Exception ex) {

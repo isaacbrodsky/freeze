@@ -24,12 +24,12 @@ public class MuseumCatalogRetriever {
      */
     private final long DELAY_MS = 2000;
 
+    private ObjectMapper objectMapper;
     private String urlBase;
     private File output;
 
     public void retrieve() throws IOException, InterruptedException {
         OkHttpClient client = new OkHttpClient();
-        ObjectMapper objectMapper = new ObjectMapper();
 
         List<JsonNode> allResults = new ArrayList<>();
         long start = System.currentTimeMillis();
@@ -69,10 +69,9 @@ public class MuseumCatalogRetriever {
             Thread.sleep(DELAY_MS);
         } while (resultCount > 0);
 
-        File toWrite = output.toPath().resolve("catalog.json").toFile();
         log.info("Took {} ms", System.currentTimeMillis() - start);
-        log.info("Writing results {} details, {} requests to {}", allResults.size(), requestCount, toWrite.toString());
-        objectMapper.writeValue(toWrite, allResults);
+        log.info("Writing results {} details, {} requests to {}", allResults.size(), requestCount, output.toString());
+        objectMapper.writeValue(output, allResults);
         log.info("Done!");
     }
 }

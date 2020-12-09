@@ -2,6 +2,9 @@ package com.isaacbrodsky.zztsearch.query.search;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.isaacbrodsky.zztsearch.query.IndexDirectories;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
@@ -18,9 +21,7 @@ import org.apache.lucene.search.TopDocs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,7 +35,9 @@ public class GameTextSearcher {
     private final Timer parseTime;
     private final Timer searchTime;
 
-    public GameTextSearcher(MetricRegistry metrics, File indexDir) throws IOException {
+    private final Map<String, String> firstLetterLookup;
+
+    public GameTextSearcher(MetricRegistry metrics, ObjectMapper objectMapper, File indexDir, File catalogFile) throws IOException {
         IndexDirectories dirs = new IndexDirectories(indexDir);
 
         worldSearcher = new IndexSearcher(DirectoryReader.open(dirs.getWorldDirectory()));
@@ -45,6 +48,25 @@ public class GameTextSearcher {
 
         parseTime = metrics.timer("searcher.parse");
         searchTime = metrics.timer("searcher.search");
+
+        if (catalogFile.exists()) {
+            log.info("Reading catalog...");
+            JsonNode allDetails = objectMapper.readTree(catalogFile);
+            firstLetterLookup = new HashMap<>();
+            for (int i = 0; i < allDetails.size(); i++) {
+                JsonNode details = allDetails.get(i);
+                String zipFile = details.get("filename").asText();
+                String letter = details.get("letter").asText();
+                if (firstLetterLookup.containsKey(zipFile)) {
+                    log.warn("Catalog contains duplicate for {}", zipFile);
+                } else {
+                    firstLetterLookup.put(zipFile, letter);
+                }
+            }
+        } else {
+            log.warn("Catalog missing");
+            firstLetterLookup = Collections.emptyMap();
+        }
     }
 
     public SearchResult search(Index index, String field, String queryText) throws IOException, ParseException {
@@ -91,7 +113,29 @@ public class GameTextSearcher {
         return new SearchResult.Doc(docId.doc,
                 docId.score,
                 docId.shardIndex,
-                Collections.unmodifiableMap(contents));
+                Collections.unmodifiableMap(contents),
+                makeCanonicalUrl(contents));
+    }
+
+    private String makeCanonicalUrl(Map<String, String> fields) {
+        if (!fields.containsKey("world_path")) {
+            return "";
+        }
+        String[] parts = fields.get("world_path").split("/");
+        List<String> zipFiles = Arrays.stream(parts)
+                .filter(s -> s.toLowerCase().endsWith(".zip"))
+                .collect(Collectors.toList());
+        if (zipFiles.size() > 1) {
+            // First zip file is the museum provided zip, next is the one
+            // indexed in the museum.
+            String zipFile = zipFiles.get(1);
+            String firstLetter = firstLetterLookup.get(zipFile);
+            String zztFile = parts[parts.length - 1];
+            String boardIndex = fields.get("board_index");
+            return "https://museumofzzt.com/file/" + firstLetter + "/" + zipFile + "?file=" + zztFile + "&board=" + boardIndex;
+        } else {
+            return "";
+        }
     }
 
     // Probably should not be part of public API of this class

@@ -52,7 +52,7 @@ public class SearchCommand extends ConfiguredCommand<ZZTSearchConfiguration> {
         final ObjectMapper objectMapper = bootstrap.getObjectMapper();
 
         try (final Scanner scanner = new Scanner(new InputStreamReader(System.in))) {
-            final GameTextSearcher searcher = new GameTextSearcher(bootstrap.getMetricRegistry(), configuration.indexDirectory);
+            final GameTextSearcher searcher = new GameTextSearcher(bootstrap.getMetricRegistry(), objectMapper, configuration.indexDirectory, configuration.getMuseumFile());
 
             String line;
             while ((line = scanner.nextLine()) != null) {
