@@ -17,5 +17,7 @@ public class SearchResult {
         float score;
         int shardIndex;
         Map<String, String> fields;
+
+        String canonicalUrl;
     }
 }

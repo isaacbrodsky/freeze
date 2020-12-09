@@ -1,6 +1,9 @@
 
-worldDirectory: E:/ZZTZips
+worldDirectory: E:/ZZTZips-extraction
 indexDirectory: E:/tmp/zztsearchindex
+
+museumFile: E:/tmp/zztsearchmuseumcatalog/catalog.json
+museumUrlBase: https://museumofzzt.com/api/v1/
 
 logging:
   level: INFO

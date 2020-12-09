@@ -81,6 +81,7 @@ public class GameTextIndexer {
             }
         }
         log.info("All indexing done");
+        log.info("Number of indexing: " + indexTime.getCount());
     }
 
     private IndexWriter buildWriter(Directory dir) throws IOException {
