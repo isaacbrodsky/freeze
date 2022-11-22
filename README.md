@@ -2,28 +2,29 @@
 
 This repo contains several ZZT related projects.
 
-* Freeze 2: A ZZT compatible game engine in Java. It tries to be an advanced editor for ZZT
-  worlds - giving precise control over stats and other details.
+* Freeze 2: A ZZT compatible game editor in Java. It gives precise control over stats and other details.
 * ZZT Search: Code for loading ZZT worlds into Lucene, and for searching ZZT worlds.
 * Freeze 1: A ZZT compatible-ish game engine in Java. It can (sort of) play ZZT and SuperZZT
   games, and can edit both ZZT and SuperZZT games.
 
 ## Freeze 2
 
-Freeze 2 is an in progress rewrite of the Freeze 1 engine for use as an advanced
-ZZT world editor. It intends to provide fine-grained control over the world file.
-
-Freeze 2 supports directly manipulating the stats list (for example, to create *clown car*
-objects), advanced manipulation of stats and OOP (supporting adding any byte sequence
-into the OOP text), and more.
+Freeze 2 is an advanced ZZT world editor. It intends to provide fine-grained control over
+the world file. It supports directly manipulating the stats list (for example, to create
+*clown car* objects or reordering stats), advanced manipulation of stats and OOP (supporting
+adding any byte sequence into the OOP text), and more.
 
 The editor supports several view modes to quickly understand ZZT worlds - including modes
-for walkability, presence of stats or OOP, SuperZZT maximum possible visible window, and
-more.
+for walkability, presence or order of stats or OOP, monochrome palette, "hidden" empty colors,
+SuperZZT maximum possible visible window, and more.
 
 At this time Freeze 2 does not support any gameplay. Freeze 2 is also useful for
 extracting text and data from ZZT worlds, and for programmatically generating
 ZZT worlds.
+
+To run:
+1. Run `mvn clean install` to build the application.
+1. Run `java -jar freeze2/target/freeze2-1.0-zztsearch-SNAPSHOT.jar`
 
 ## ZZT Search
 
@@ -57,9 +58,9 @@ available.
 
 # License
 
-TBD
+Licensed under the [GNU GPL version 3](./LICENSE.txt).
 
-Copyright 2011, 2020 Isaac Brodsky.
+Copyright 2011, 2020, 2022 Isaac Brodsky.
 
 # Thanks
 

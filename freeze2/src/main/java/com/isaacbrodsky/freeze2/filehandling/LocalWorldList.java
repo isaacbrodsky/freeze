@@ -58,7 +58,7 @@ public class LocalWorldList implements WorldList {
 		switch (emu) {
 		case ZZT:
 			File f = getChildOfBase("ZZT.CFG");
-			if (f.exists() && f.isFile() && f.canRead()) {
+			if (f != null && f.exists() && f.isFile() && f.canRead()) {
 				try (InputStream in = new FileInputStream(f)) {
 					byte[] buf = new byte[8];
 					in.read(buf, 0, 8);
